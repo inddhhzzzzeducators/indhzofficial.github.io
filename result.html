@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IND#Z Test</title>
+</head>
+<body>
+
+<h1>IND#Z Online Test</h1>
+
+<label>Name:</label>
+<input type="text" id="name" placeholder="Your Name"><br>
+
+<label>Email:</label>
+<input type="email" id="email" placeholder="Your Email"><br>
+
+<hr>
+
+<!-- Example Questions -->
+<div>
+  <p>1. What is 2 + 2?</p>
+  <input type="radio" name="q1" value="3"> 3<br>
+  <input type="radio" name="q1" value="4"> 4<br>
+</div>
+
+<div>
+  <p>2. Capital of India?</p>
+  <input type="radio" name="q2" value="Delhi"> Delhi<br>
+  <input type="radio" name="q2" value="Mumbai"> Mumbai<br>
+</div>
+
+<button onclick="submitTest()">Submit Test</button>
+
+<script>
+const totalQuestions = 2; // Update if more questions
+
+// Calculate score
+function calculateScore() {
+  let score = 0;
+  if(document.querySelector('input[name="q1"]:checked')?.value === "4") score++;
+  if(document.querySelector('input[name="q2"]:checked')?.value === "Delhi") score++;
+  return score;
+}
+
+// Submit function
+function submitTest() {
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let score = calculateScore();
+  let total = totalQuestions;
+  let date = new Date().toLocaleString();
+
+  if(!name || !email){
+    alert("Please enter Name and Email!");
+    return;
+  }
+
+  fetch("https://script.google.com/macros/s/AKfycbzE5O81RfUN1NByGZ9t_pKqqqC11OMlfsvYeYE49qfd09YkvgNBoAf4Mby_n5K1ajsBRA/exec", {
+    method: "POST",
+    body: JSON.stringify({name, email, score, total, date})
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.status === "success"){
+      alert(`✅ Result saved!\nScore: ${score}/${total}`);
+    } else {
+      alert("❌ Error saving result");
+    }
+  })
+  .catch(err => console.error(err));
+}
+</script>
+
+</body>
+</html>
