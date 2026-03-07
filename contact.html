@@ -13,11 +13,12 @@
 document.getElementById("contactForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
-    var data = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        message: document.getElementById("message").value
-    };
+   var data = {
+    type: "contact",
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    message: document.getElementById("message").value
+};
 
     fetch("https://script.google.com/macros/s/AKfycbycJC6OHgjElHh84_zsTyUpBYmHuXqwUPG_joCh29ZInMW2Re8h_SFiV4sWT7TOIKHicg/exec", {
         method: "POST",
